@@ -1,4 +1,4 @@
-# Send-email with Node.js 📨
+# SendEmail with Node.js 📨
 ### Using nodemailer
 
 1. Create a config.js file in the root 
