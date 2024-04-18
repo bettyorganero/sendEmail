@@ -3,21 +3,21 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const fs = require('fs');
-const { emailUser, emailPass } = require('./config');
+const { emailUser, emailPass, emailHost } = require('./config');
 
 const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors()); // Enable CORS to allow requests from Angular client
+app.use(cors());
 
 // Load HTML template contents
 const recipientEmailTemplate = fs.readFileSync('recipient-email.html', 'utf-8');
 const confirmationEmailTemplate = fs.readFileSync('confirmation-email.html', 'utf-8');
 
 const transporter = nodemailer.createTransport({
-  host: emailHost, // SMTP host
+  host: emailHost, // Use host from config.js
   port: 465, // Use port 465 for secure SMTP
   secure: true, // Enable SSL/TLS
   auth: {
