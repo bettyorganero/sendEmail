@@ -7,7 +7,9 @@
 module.exports = {
     emailHost: 'your_smtp_host'
     emailUser: 'your_email@address',
-    emailPass: 'your_email_password'
+    emailPass: 'your_email_password',
+    mailTo: 'your_mail_to recive_the_form'
+    recaptchaSecretKey: 'TU-CLAVE-SECRETA-DE-RECAPTCHA'
 };
 ```
 2. npm install

@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const fs = require('fs');
-const { emailUser, emailPass, emailHost } = require('./config');
+const { emailUser, emailPass, emailHost, mailTo } = require('./config');
 
 const app = express();
 const PORT = 3000;
@@ -32,7 +32,7 @@ app.post('/send-email', (req, res) => {
   // Configure email for recipient
   const recipientMailOptions = {
       from: email,
-      to: 'organero@miscelaneo.net',
+      to: mailTo,
       subject: subject,
       html: recipientEmailTemplate.replace(/{{name}}/g, name).replace(/{{lastname}}/g, lastname).replace(/{{company}}/g, company).replace(/{{email}}/g, email).replace(/{{message}}/g, message)
   };
@@ -40,13 +40,13 @@ app.post('/send-email', (req, res) => {
   // Send email to recipient
   transporter.sendMail(recipientMailOptions, (error, info) => {
       if (error) {
-          console.error('Error sending email:', error);
-          res.status(500).send('Error sending email');
+          //console.error('Error sending email:', error);
+          res.status(500).json({ message: 'Error sending email' });
       } else {
-          console.log('Email sent to recipient:', info.response);
+          //console.log('Email sent to recipient:', info.response);
           // Send confirmation email to sender
           const confirmationMailOptions = {
-              from: 'organero@miscelaneo.net',
+              from: mailTo,
               to: email,
               subject: 'Confirmation: Your message has been sent successfully',
               html: confirmationEmailTemplate.replace(/{{name}}/g, name).replace(/{{lastname}}/g, lastname).replace(/{{company}}/g, company).replace(/{{email}}/g, email).replace(/{{message}}/g, message)
@@ -58,11 +58,11 @@ app.post('/send-email', (req, res) => {
                   console.log('Confirmation email sent:', info.response);
               }
           });
-          res.status(200).send('Email sent successfully');
+          res.status(200).json({ message: 'Email sent successfully' });
       }
   });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.listen(3000, () => {
+    console.log('Servidor escuchando en el puerto 3000');
+  });
