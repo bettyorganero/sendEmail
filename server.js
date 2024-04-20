@@ -17,12 +17,12 @@ const recipientEmailTemplate = fs.readFileSync('recipient-email.html', 'utf-8');
 const confirmationEmailTemplate = fs.readFileSync('confirmation-email.html', 'utf-8');
 
 const transporter = nodemailer.createTransport({
-  host: emailHost, // Use host from config.js
-  port: 465, // Use port 465 for secure SMTP
-  secure: true, // Enable SSL/TLS
+  host: emailHost,
+  port: 465,
+  secure: true,
   auth: {
-    user: emailUser, // Use username from config.js
-    pass: emailPass // Use password from config.js
+    user: emailUser,
+    pass: emailPass
   }
 });
 
@@ -40,10 +40,8 @@ app.post('/send-email', (req, res) => {
   // Send email to recipient
   transporter.sendMail(recipientMailOptions, (error, info) => {
       if (error) {
-          //console.error('Error sending email:', error);
           res.status(500).json({ message: 'Error sending email' });
       } else {
-          //console.log('Email sent to recipient:', info.response);
           // Send confirmation email to sender
           const confirmationMailOptions = {
               from: mailTo,
@@ -63,6 +61,6 @@ app.post('/send-email', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-    console.log('Servidor escuchando en el puerto 3000');
-  });
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
+});
